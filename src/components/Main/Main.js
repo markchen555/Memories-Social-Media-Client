@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, AppBar, Typography, Grow, Grid } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getPosts, fetchPosts } from "../../store/Main";
+import { fetchPosts } from "../../store/Posts";
 
 import Posts from '../Posts/Posts';
 import Form from '../Form/Form';
@@ -13,7 +13,7 @@ const App = () => {
   const dispatch = useDispatch();
   const [currentId, setCurrentId] = useState(0);
 
-  const { posts, status, error } = useSelector(state => state.main);
+  const { posts, status, error } = useSelector(state => state.posts);
 
   useEffect(() => {
 	if(status === 'idle') {
