@@ -1,28 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Post from './Post/Post';
+import { Grid, CircularProgress } from '@mui/material';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { increment, decrement, reset, incrementByAmount } from "../../store/Posts";
+import { useSelector } from 'react-redux';
 
 import styles from './styles'
 
-const Posts = () => {
-  const count = useSelector((state) => state.posts.count);
-  const [incrementAmount, setIncrementAmount] = useState(0)
-  const addValue = Number(incrementAmount)
-  const dispatch = useDispatch();
+const Posts = ({ setCurrentId }) => {
+  const { posts } = useSelector((state) => state.posts);
 
   return (
-    <>
-	    <div>Posts</div>
-	    <div>Counter: {count}</div>
-      <input type="text" value={incrementAmount} onChange={(e) => setIncrementAmount(e.target.value)} />
-      <button onClick={() => dispatch(increment())}>+</button>
-      <button onClick={() => dispatch(decrement())}>-</button>
-      <button onClick={() => dispatch(incrementByAmount(addValue))}>Enter</button>
-      <button onClick={() => dispatch(reset())}>Reset</button>
-      <Post></Post>
-    </>
+    !posts.length ? <CircularProgress /> : (
+      <Grid sx={styles.container} container alignItems="stretch" spacing={3}>
+        {posts.map((post) => (
+          <Grid key={post._id} item xs={12} sm={6} md={6}>
+            <Post post={post} setCurrentId={setCurrentId} />
+          </Grid>
+        ))}
+      </Grid>
+    )
   )
 }
 
