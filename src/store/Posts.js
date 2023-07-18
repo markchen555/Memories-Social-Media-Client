@@ -11,7 +11,6 @@ export const fetchPosts = createAsyncThunk(
 	'posts/fetchPosts',
 	async (thunkAPI) => {
 	  const res = await api.fetchPosts();
-	  console.log('check fetch res', res)
 	return res.data;
   	}
 )
@@ -20,16 +19,15 @@ export const createPost = createAsyncThunk(
 	'posts/createPost',
 	async (postData, thunkAPI) => {
 		const res = await api.createPost(postData);
-		console.log('check create res', res)
 	return res.data;
 	}
 )
 
 export const updatePost = createAsyncThunk(
 	'posts/updatePost',
-	async (id, updatedData, thunkAPI) => {
-		const res = await api.updatePost(id, updatedData);
-		console.log('check update res', res)
+	async (updatedData, thunkAPI) => {
+		const {currentId, postData} = updatedData;
+		const res = await api.updatePost(currentId, postData);
 		return res.data;
 	}
 )
@@ -41,7 +39,6 @@ export const posts = createSlice({
 		// reducers is for synchronous requests made to the store
 		getPosts(state, action) {
 			const fetchPosts = JSON.parse(localStorage.getItem('posts')) || [];
-			console.log('check fetch post', fetchPosts)
             state.posts = fetchPosts;
 		}
 	},

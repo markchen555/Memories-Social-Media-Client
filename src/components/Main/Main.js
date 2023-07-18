@@ -1,28 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Container, AppBar, Typography, Grow, Grid } from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { getPosts, fetchPosts } from "../../store/Posts";
+import { fetchPosts } from "../../store/Posts";
 
 import Posts from '../Posts/Posts';
 import Form from '../Form/Form';
 import memories from '../../images/memories.png';
 import styles from './styles'
 
-const App = () => {
+const Main = () => {
   const dispatch = useDispatch();
   const [currentId, setCurrentId] = useState(0);
 
-  const { posts, status, error } = useSelector(state => state.posts);
-
-  useEffect(() => {
-	if(status === 'idle') {
-		dispatch(fetchPosts())
-	}
-	if(status === 'succeeded') {
-		console.log('after fetch', posts)
-	}
-  }, [dispatch, status])
+	useEffect(() => {
+    	dispatch(fetchPosts());
+  	}, [currentId, dispatch]);
+  
   return (
     <Container maxWidth="lg">
     <AppBar sx={styles.appbar} position="static" color="inherit">
@@ -45,4 +39,4 @@ const App = () => {
   );
 }
 
-export default App;
+export default Main;
