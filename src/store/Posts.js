@@ -13,7 +13,8 @@ export const fetchPosts = createAsyncThunk(
 	  const res = await api.fetchPosts();
 	  console.log('check fetch res', res)
 	return res.data;
-  })
+  	}
+)
 
 export const createPost = createAsyncThunk(
 	'posts/createPost',
@@ -21,7 +22,17 @@ export const createPost = createAsyncThunk(
 		const res = await api.createPost(postData);
 		console.log('check create res', res)
 	return res.data;
-	})
+	}
+)
+
+export const updatePost = createAsyncThunk(
+	'posts/updatePost',
+	async (id, updatedData, thunkAPI) => {
+		const res = await api.updatePost(id, updatedData);
+		console.log('check update res', res)
+		return res.data;
+	}
+)
 
 export const posts = createSlice({
 	name: 'posts',
@@ -44,6 +55,7 @@ export const posts = createSlice({
             state.status = 'succeeded';
 			console.log('check payload: ', action.payload)
             state.posts = action.payload;
+			console.log('state posts', state.posts)
         });
         builder.addCase(fetchPosts.rejected, (state, action) => {
             state.status = 'failed';
@@ -54,6 +66,10 @@ export const posts = createSlice({
 		builder.addCase(createPost.fulfilled, (state, action) => {
 			console.log('check creatPost: ', action.payload)
 			state.posts = [...state.posts, action.payload];
+		});
+		builder.addCase(updatePost.fulfilled, (state, action) => {
+			console.log('check updatedPost: ', action.payload)
+			state.posts = state.posts.map((post) => post._id === action.payload._id ? action.payload : post);
 		})
 	}
 })

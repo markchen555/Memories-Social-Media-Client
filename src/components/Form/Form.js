@@ -1,15 +1,20 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { TextField, Button, Typography, Paper  } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import FileBase from 'react-file-base64';
 
-import { createPost } from "../../store/Posts";
+import { createPost, updatePost } from "../../store/Posts";
 
 import styles from './styles'
 
 const Form = ({ currentId, setCurrentId }) => {
   const dispatch = useDispatch();
   const [postData, setPostData] = useState({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
+  const post = useSelector(({posts}) => currentId ? posts.posts.find((p) => p._id === currentId) : null);
+
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
 
   const clear = () => {
     setCurrentId(0);

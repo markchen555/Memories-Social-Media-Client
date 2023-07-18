@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, AppBar, Typography, Grow, Grid } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { fetchPosts } from "../../store/Posts";
+import { getPosts, fetchPosts } from "../../store/Posts";
 
 import Posts from '../Posts/Posts';
 import Form from '../Form/Form';
