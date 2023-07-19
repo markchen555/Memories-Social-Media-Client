@@ -32,6 +32,14 @@ export const updatePost = createAsyncThunk(
 	}
 )
 
+export const deletePost = createAsyncThunk(
+	'posts/deletePost',
+	async (id, thunkAPI) => {
+		const res = await api.deletePost(id);
+		return {...res.data, id};
+	}
+)
+
 export const posts = createSlice({
 	name: 'posts',
 	initialState,
@@ -46,27 +54,26 @@ export const posts = createSlice({
 		// extraReducers handles asynchronous requests
 		builder.addCase(fetchPosts.pending, (state, action) => {
             state.status = 'loading';
-			console.log('check pending: ', state.loading)
         });
         builder.addCase(fetchPosts.fulfilled, (state, action) => {
             state.status = 'succeeded';
-			console.log('check payload: ', action.payload)
             state.posts = action.payload;
-			console.log('state posts', state.posts)
         });
         builder.addCase(fetchPosts.rejected, (state, action) => {
             state.status = 'failed';
-			console.log('check rejected: ', state.loading)
             state.posts = [];
             state.error = action.error.message;
         });
 		builder.addCase(createPost.fulfilled, (state, action) => {
-			console.log('check creatPost: ', action.payload)
 			state.posts = [...state.posts, action.payload];
 		});
 		builder.addCase(updatePost.fulfilled, (state, action) => {
 			console.log('check updatedPost: ', action.payload)
 			state.posts = state.posts.map((post) => post._id === action.payload._id ? action.payload : post);
+		})
+		builder.addCase(deletePost.fulfilled, (state, action) => {
+			console.log('check deletePost: ', action)
+			state.posts = state.posts.filter((post) => post._id !== action.payload.id);
 		})
 	}
 })
