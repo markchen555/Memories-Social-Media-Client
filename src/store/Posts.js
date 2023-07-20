@@ -40,6 +40,14 @@ export const deletePost = createAsyncThunk(
 	}
 )
 
+export const likePost = createAsyncThunk(
+	'posts/likePost',
+	async (id, thunkAPI) => {
+		const res = await api.likePost(id);
+		return res.data;
+	}
+)
+
 export const posts = createSlice({
 	name: 'posts',
 	initialState,
@@ -70,10 +78,14 @@ export const posts = createSlice({
 		builder.addCase(updatePost.fulfilled, (state, action) => {
 			console.log('check updatedPost: ', action.payload)
 			state.posts = state.posts.map((post) => post._id === action.payload._id ? action.payload : post);
-		})
+		});
 		builder.addCase(deletePost.fulfilled, (state, action) => {
 			console.log('check deletePost: ', action)
 			state.posts = state.posts.filter((post) => post._id !== action.payload.id);
+		});
+		builder.addCase(likePost.fulfilled, (state, action) => {
+			console.log('check likePost: ', action.payload)
+			state.posts = state.posts.map((post) => post._id === action.payload._id ? action.payload : post);
 		})
 	}
 })
