@@ -1,0 +1,82 @@
+.post__card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100%;
+	border-radius: calc( 0.5rem - 4px);
+	background-color: rgb(18, 18, 18);
+    color: rgb(255, 255, 255);
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    overflow: hidden;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05));
+}
+
+.post__image {
+	display: block;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 160px;
+}
+
+.post__image-info {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	color: 'white';
+}
+
+.post__image-more{
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	color: 'white';
+}
+
+.post__image-more button{
+	cursor: pointer;
+}
+
+.post__dot-icon {
+	width: 20px;
+	height: 20px;
+}
+
+.post__image-info p {
+	margin: 0 0 8px 0;
+}
+
+.post__tags {
+	padding: 1rem;
+	color: #A1A1AA
+}
+
+.post__title {
+	padding: 1.4rem 1rem;
+	margin: 0;
+	font-weight: 500;
+	font-size: 26px;
+}
+
+.post__message {
+	padding: 1rem;
+	color: #A1A1AA
+}
+
+.post__message p {
+	margin: 0 0 1rem 0;
+}
+
+.post__button-group {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1rem;
+}
+
+.post__button-group button {
+	cursor: pointer;
+}

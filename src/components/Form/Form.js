@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from 'react'
-import { TextField, Button, Typography, Paper  } from '@mui/material';
+import React, {useState, useEffect} from 'react';
+import * as Form from '@radix-ui/react-form';
 import { useSelector, useDispatch } from 'react-redux';
 import FileBase from 'react-file-base64';
 
 import { createPost, updatePost } from "../../store/Posts";
 
-import styles from './styles'
+import './styles.css';
 
-const Form = ({ currentId, setCurrentId }) => {
+const SubmitForm = ({ currentId, setCurrentId }) => {
   const dispatch = useDispatch();
   const [postData, setPostData] = useState({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
   const post = useSelector(({posts}) => currentId ? posts.posts.find((p) => p._id === currentId) : null);
@@ -34,21 +34,51 @@ const Form = ({ currentId, setCurrentId }) => {
   };
 
   return (
-    <Paper sx={styles.paper}>
-    <form autoComplete="off" noValidate className={`${styles.root} ${styles.form}`} onSubmit={handleSubmit}>
-      {/* <Typography variant="h6">{currentId ? `Editing "${post.title}"` : 'Creating a Memory'}</Typography> */}
-      <TextField name="creator" variant="outlined" label="Creator" fullWidth value={postData.creator} onChange={(e) => setPostData({ ...postData, creator: e.target.value })} />
-      <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
-      <TextField name="message" variant="outlined" label="Message" fullWidth multiline rows={4} value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
-      <TextField name="tags" variant="outlined" label="Tags (coma separated)" fullWidth value={postData.tags} onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(',') })} />
-      <div className={styles.fileInput}>
-        <FileBase type="file" multiple={false} onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} />
-      </div>
-      <Button sx={styles.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Submit</Button>
-      <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth>Clear</Button>
-    </form>
-  </Paper>
+    <div className='form__container'>
+      <Form.Root className='form__root' onSubmit={handleSubmit}>
+        <div className='form__title'>
+          <span>{currentId ? `Editing "${post.title}"` : 'Creating a Memory'}</span>
+        </div>
+        <Form.Field className="form__field" name="creator">
+          <Form.Label className="form__label">Creator</Form.Label>
+          <Form.Control asChild>
+            <input value={postData.creator} onChange={(e) => setPostData({ ...postData, creator: e.target.value })} className="form__input" type="text" />
+          </Form.Control>
+        </Form.Field>
+
+        <Form.Field className="form__field" name="title">
+          <Form.Label className="form__label">Title</Form.Label>
+          <Form.Control asChild>
+            <input value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} className="form__input" type="text" />
+          </Form.Control>
+        </Form.Field>
+
+        <Form.Field className="form__field" name="message">
+          <Form.Label className="form__label">Message</Form.Label>
+          <Form.Control asChild>
+            <textarea value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} className="form__textarea" required />
+          </Form.Control>
+        </Form.Field>
+
+        <Form.Field  className="form__field" name="tags">
+          <Form.Label  className="form__label">Tags</Form.Label>
+          <Form.Control asChild>
+            <input value={postData.tags} onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(',') })} className="form__input" type="text" />
+          </Form.Control>
+        </Form.Field>
+        <div className='form__file-input'>
+          <FileBase type="file" multiple={false} onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} />
+        </div>
+
+        <Form.Submit className="form__button" type="submit">
+          Submit
+        </Form.Submit>
+        <Form.Submit className="form__button" onClick={clear} type="button">
+          Clear
+        </Form.Submit>
+      </Form.Root>
+    </div>
   )
 }
 
-export default Form
+export default SubmitForm
